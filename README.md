@@ -56,6 +56,11 @@ For further examples see the documentation or refer to the [unit tests](https://
 ### Using `pip`
 
     pip install openmesh
+    
+### Using `conda`
+Thanks to Martin Drawitsch you can also install openmesh-python via [conda](https://github.com/conda-forge/openmesh-python-feedstock):
+
+    conda install -c conda-forge openmesh-python
 
 ### Prebuilt Binaries
 
