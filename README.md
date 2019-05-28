@@ -47,7 +47,7 @@ point_array += np.array([1, 0, 0])
 
 # write and read meshes
 om.write_mesh('test.off', mesh)
-mesh_2 = om.read_trimesh('test_off')
+mesh_2 = om.read_trimesh('test.off')
 ```
 For further examples see the documentation or refer to the [unit tests](https://www.graphics.rwth-aachen.de:9000/OpenMesh/openmesh-python/tree/master/tests).
 
