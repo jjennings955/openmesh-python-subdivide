@@ -24,7 +24,7 @@ build-3.7-VS2017:
     paths:
       - dist3/
 
-build-3.5-linux:
+build-3.7-linux:
   stage:
     build
   tags:
@@ -32,7 +32,7 @@ build-3.5-linux:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - virtualenv --clear -p python3.5 .
+    - virtualenv --clear -p python3.7 .
     - source bin/activate
     - python setup.py bdist_wheel --dist-dir dist3
   artifacts:
@@ -103,15 +103,15 @@ test-3.7-VS2017:
     - cd ..\tests
     - python -m unittest discover
 
-test-3.5-linux:
+test-3.7-linux:
   stage:
     test
   tags:
     - Linux
   dependencies:
-    - build-3.5-linux
+    - build-3.7-linux
   script:
-    - virtualenv --clear -p python3.5 .
+    - virtualenv --clear -p python3.7 .
     - source bin/activate
     - pip install dist3/*.whl
     - cd tests
@@ -177,13 +177,13 @@ deploy-3.7-VS2017:
     paths:
       - release/*.whl
 
-deploy-3.5-linux:
+deploy-3.7-linux:
   stage:
     deploy
   tags:
     - Linux
   dependencies:
-    - build-3.5-linux
+    - build-3.7-linux
   script:
     - mkdir release
     - cp dist3/*.whl release
@@ -241,7 +241,7 @@ deploy-sdist:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - virtualenv --clear -p python3.5 .
+    - virtualenv --clear -p python3.7 .
     - source bin/activate
     - python setup.py sdist --dist-dir release
   artifacts:
@@ -254,9 +254,9 @@ deploy-documentation:
   tags:
     - Linux
   dependencies:
-    - build-3.5-linux
+    - build-3.7-linux
   script:
-    - virtualenv --clear -p python3.5 .
+    - virtualenv --clear -p python3.7 .
     - source bin/activate
     - pip install dist3/*.whl
     - pip install sphinx sphinx_rtd_theme
