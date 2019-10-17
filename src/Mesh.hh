@@ -412,9 +412,8 @@ void expose_type_specific_functions(py::class_<TriMesh>& _class) {
 	typedef TriMesh::Point  Point;
 	typedef TriMesh::Normal Normal;
 	typedef TriMesh::Color  Color;
-
+	typedef OM::Subdivider::Uniform::LoopT<TriMesh> SubDivider;
 	typedef py::array_t<typename Point::value_type> np_point_t;
-
 	void (TriMesh::*split_copy_eh_vh)(OM::EdgeHandle, OM::VertexHandle) = &TriMesh::split_copy;
 	OM::HalfedgeHandle (TriMesh::*vertex_split_vh)(OM::VertexHandle, OM::VertexHandle, OM::VertexHandle, OM::VertexHandle) = &TriMesh::vertex_split;
 
@@ -451,12 +450,11 @@ void expose_type_specific_functions(py::class_<TriMesh>& _class) {
 
 		.def("face_vertex_indices", &face_vertex_indices_trimesh)
 		.def("fv_indices", &face_vertex_indices_trimesh)
-		.def("subdivide", [](TriMesh& _self, size_t n=1) {
-				OM::Subdivider::Uniform::LoopT<TriMesh, float> subdivider(_self);
-				subdivider(n);
-			});
+		.def("subdivide", [](TriMesh& _self) {
+			SubDivider sub;
+			sub(_self, 1, true);
+		});
 }
-
 
 /**
  * Expose a mesh type to %Python.
@@ -598,8 +596,10 @@ void expose_mesh(py::module& m, const char *_name) {
 	//  Mesh Type
 	//======================================================================
 
-	py::class_<Mesh> class_mesh(m, _name);
 
+	py::class_<Mesh> class_mesh(m, _name);
+	//OM::Subdivider::Uniform::LoopT<TriMesh, double> thing();
+	
 	class_mesh
 		.def(py::init<>())
 
