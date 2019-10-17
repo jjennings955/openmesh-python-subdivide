@@ -6,6 +6,7 @@
 #include "Iterator.hh"
 #include "Circulator.hh"
 
+#include <OpenMesh/Tools/Subdivider/Uniform/LoopT.hh>
 #include <algorithm>
 
 #include <pybind11/pybind11.h>
@@ -29,6 +30,8 @@ template <class Mesh, class OtherMesh>
 void assign_connectivity(Mesh& _self, const OtherMesh& _other) {
 	_self.assign_connectivity(_other);
 }
+
+
 
 /**
  * Get an iterator.
@@ -448,7 +451,10 @@ void expose_type_specific_functions(py::class_<TriMesh>& _class) {
 
 		.def("face_vertex_indices", &face_vertex_indices_trimesh)
 		.def("fv_indices", &face_vertex_indices_trimesh)
-		;
+		.def("subdivide", [](TriMesh& _self, size_t n=1) {
+				OM::Subdivider::Uniform::LoopT<TriMesh, float> subdivider(_self);
+				subdivider(n);
+			});
 }
 
 
