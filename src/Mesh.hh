@@ -450,10 +450,10 @@ void expose_type_specific_functions(py::class_<TriMesh>& _class) {
 
 		.def("face_vertex_indices", &face_vertex_indices_trimesh)
 		.def("fv_indices", &face_vertex_indices_trimesh)
-		.def("subdivide", [](TriMesh& _self) {
+		.def("subdivide", [](TriMesh& _self, size_t num, bool updates) {
 			SubDivider sub;
 			sub(_self, 1, true);
-		});
+		}, py::arg("subdivisions") = 1, py::arg("update")=true);
 }
 
 /**
